@@ -18,6 +18,10 @@ export default {
     messages () {
       return this.$store.state.messages
     }
+  },
+  methods: {
+  },
+  watch: {
   }
 }
 </script>

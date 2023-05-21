@@ -1,14 +1,18 @@
 <template>
-  <div :class="{'message-entry': true, 'my-message-entry': isMyMessage}">
-    <img v-if="!isMyMessage" :src="userProfileImage" :alt="fromUser.firstName" class="user-thumbnail">
-    <p :class="{'message-bubble': true, 'my-message-content': isMyMessage}">
-      {{messageContent}}
-    </p>
-    <img v-if="isMyMessage" :src="userProfileImage" :alt="fromUser.firstName" class="user-thumbnail">
+  <div>
+    <div :class="{'message-entry': true, 'my-message-entry': isMyMessage}">
+      <img v-if="!isMyMessage" :src="userProfileImage" :alt="fromUser.firstName" class="user-thumbnail">
+      <div :class="{'message-bubble': true, 'my-message-content': isMyMessage}">
+        <p>{{messageContent}}</p>
+        <span class="message-status" :style="{color: messageFailed ? 'red' : ''}">{{messageStatus}}</span>
+      </div>
+      <img v-if="isMyMessage" :src="userProfileImage" :alt="fromUser.firstName" class="user-thumbnail">
+    </div>
   </div>
 </template>
 
 <script>
+import { MESSAGE_STATUS } from "@/store/constants"
 
 export default {
   name: 'MessageEntry',
@@ -27,6 +31,12 @@ export default {
     },
     messageContent () {
       return this.message.message
+    },
+    messageStatus () {
+      return this.message.status
+    },
+    messageFailed () {
+      return this.messageStatus === MESSAGE_STATUS.FAILED
     },
     isMyMessage () {
       return this.$store.getters.currentUserId === this.fromUser.id
@@ -60,8 +70,19 @@ export default {
   border-radius: 8px;
   padding: 8px;
   width: 60%;
+  position: relative;
+}
+.message-bubble p {
+  margin: 0
 }
 .my-message-content {
   background: skyblue;
+}
+.message-status {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  font-size: 12px;
+  text-transform: capitalize;
 }
 </style>

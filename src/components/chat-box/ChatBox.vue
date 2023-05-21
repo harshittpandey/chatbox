@@ -1,6 +1,6 @@
 <template>
   <div class="chat-box" :style="{width: containerWidth, height: containerHeight}">
-    <conversation-area class="conversation-area-container"></conversation-area>
+    <conversation-area class="conversation-area-container" ref="conversationArea"></conversation-area>
     <compose-message class="compose-message-container"></compose-message>
   </div>
 </template>
@@ -30,6 +30,32 @@ export default {
   },
   mounted () {
     this.$store.dispatch("getAndSetMessages")
+    this.$store.dispatch("getAndSetCurrentUser")
+  },
+  computed: {
+    messages () {
+      return this.$store.state.messages || []
+    }
+  },
+  methods: {
+    scrollToLatestMessage () {
+      this.$nextTick(function() {
+        if (this.$refs.conversationArea) {
+          var container = this.$refs.conversationArea.$el;
+          container.scrollTop = container.scrollHeight + 120;
+        }
+      });
+    }
+  },
+  watch: {
+    messages: {
+      immediate: true,
+      handler: function (messageList) {
+        if (messageList?.length > 0) {
+          this.scrollToLatestMessage()
+        }
+      }
+    }
   }
 }
 </script>
@@ -48,11 +74,10 @@ export default {
   flex: 1;
   height: calc(100% - 50px);
   overflow: scroll;
-  border: 1px solid grey;
 }
 
 .chat-box .compose-message-container {
-  border: 1px solid green;
+  border-top: 1px solid lightgray;
   height: 40px
 }
 
