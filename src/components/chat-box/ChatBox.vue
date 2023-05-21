@@ -27,6 +27,9 @@ export default {
       type: String,
       default: DEFAULT_CONTAINER_HEIGHT
     }
+  },
+  mounted () {
+    this.$store.dispatch("getAndSetMessages")
   }
 }
 </script>

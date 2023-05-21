@@ -1,14 +1,23 @@
 <template>
   <div id="conversation-area">
-    ConversationArea
+    <message-entry v-for="message in messages" :message="message" :key="message.id" ></message-entry>
   </div>
 </template>
 
 <script>
+import MessageEntry from "./MessageEntry"
 
 export default {
   name: 'ConversationArea',
   components: {
+    MessageEntry
+  },
+  mounted () {
+  },
+  computed: {
+    messages () {
+      return this.$store.state.messages
+    }
   }
 }
 </script>
