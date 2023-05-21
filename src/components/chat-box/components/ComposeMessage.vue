@@ -1,6 +1,6 @@
 <template>
   <div class="message-composer">
-    <textarea type="text" name="message-input" class="message-input" rows="1" @keypress.enter="sendMessage" v-model="messageContent"></textarea>
+    <textarea type="text" name="message-input" class="message-input" placeholder="Type your message here..." rows="1" @keypress.enter="sendMessage" v-model="messageContent"></textarea>
     <button class="send-btn" @click="sendMessage">
       <img src="https://cdn-icons-png.flaticon.com/512/1933/1933005.png" alt="send-message">
     </button>
@@ -52,6 +52,7 @@ export default {
   box-sizing: border-box;
   height: 100%;
   resize: none;
+  outline: none;
   border: 1px solid lightgray;
   border-radius: 0%;
 }
